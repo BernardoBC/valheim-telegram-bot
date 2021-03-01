@@ -15,11 +15,7 @@ updater = Updater(token=telegramToken, use_context=True)
 
 #logger
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                     level=logging.INFO)
-
-def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
-    
+                     level=logging.INFO)    
 
 def shutdown(update: Update, context: CallbackContext):
     try:
