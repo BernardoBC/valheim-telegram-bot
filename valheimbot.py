@@ -58,7 +58,7 @@ def help_command(update: Update, context: CallbackContext) -> None:
 
 def main():
     """Start the bot."""
-    # Create the Updater and pass it your bot's token.
+    # Create the Updater and pass the token
     updater = Updater(telegramToken)
     
     # Get the dispatcher to register handlers
