@@ -3,6 +3,7 @@ import datetime
 import logging
 import sys
 import boto3
+import random
 from config import *
 from botocore.exceptions import ClientError
 from telegram import Update
@@ -16,7 +17,12 @@ updater = Updater(token=telegramToken, use_context=True)
 
 #logger
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                     level=logging.INFO)    
+                     level=logging.INFO)  
+
+def random_line():
+    lines = open('proverbs.txt').read().splitlines()
+    myline =random.choice(lines)
+    return myline
 
 def isPastMidnight():
     time_to_check = datetime.datetime.now().time()
@@ -42,7 +48,7 @@ def startup(update: Update, context: CallbackContext):
     try:
         response = ec2.start_instances(InstanceIds=[instanceId], DryRun=False)
         print(response)
-        update.message.reply_text("Server has started.")
+        update.message.reply_text("Server has started.\n"+random_line())
     except ClientError as e:
         print(e)
         update.message.reply_text("something failed. Was the server up already? regardless, blame Terny.")
