@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import datetime
 import logging
 import sys
 import boto3
@@ -17,11 +18,21 @@ updater = Updater(token=telegramToken, use_context=True)
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                      level=logging.INFO)    
 
+def isPastMidnight():
+    time_to_check = datetime.datetime.now().time()
+    if time_to_check >= datetime.time(0):
+        if time_to_check <= datetime.time(6):
+            return True
+    return False
+
 def shutdown(update: Update, context: CallbackContext):
     try:
         response = ec2.stop_instances(InstanceIds=[instanceId], DryRun=False)
         print(response)
-        update.message.reply_text("success!, server is asleep now. You should too.")
+        user = update.message.from_user
+        if(isPastMidnight):
+            update.message.reply_text("The server has shutdown. {}, it's past midnight. got to sleep".format(user['username']))
+        update.message.reply_text("The server has shutdown.")
     except ClientError as e:
         print(e)
         update.message.reply_text("something failed. Was the server already stopped? regardless, blame Terny.")
