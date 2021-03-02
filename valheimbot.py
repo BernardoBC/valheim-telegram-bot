@@ -37,7 +37,7 @@ def shutdown(update: Update, context: CallbackContext):
         print(response)
         user = update.message.from_user
         if(isPastMidnight):
-            update.message.reply_text("The server has shutdown. {}, it's past midnight. got to sleep".format(user['username']))
+            update.message.reply_text("The server has shutdown. {}, it's past midnight. Go to to sleep".format(user['first_name']))
         update.message.reply_text("The server has shutdown.")
     except ClientError as e:
         print(e)
