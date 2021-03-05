@@ -24,22 +24,11 @@ def random_line():
     myline =random.choice(lines)
     return myline
 
-def isLate():
-    time_to_check = datetime.datetime.now().time()
-    if time_to_check >= datetime.time(6):
-        if time_to_check < datetime.time(12):
-            return True
-    return False
-
 def shutdown(update: Update, context: CallbackContext):
     try:
         response = ec2.stop_instances(InstanceIds=[instanceId], DryRun=False)
         print(response)
-        user = update.message.from_user
-        if(isLate()):
-            update.message.reply_text("The server has shutdown. {}, it's late. Go to to sleep".format(user['first_name']))
-        else:
-            update.message.reply_text("The server has shutdown.")
+        update.message.reply_text("The server has shutdown.")
     except ClientError as e:
         print(e)
         update.message.reply_text("something failed. Was the server already stopped? regardless, blame Terny.")
